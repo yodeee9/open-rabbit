@@ -1,7 +1,6 @@
 import OpenAI from "openai";
 import moment from "moment-timezone";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
-import FastGPT from "@/pages/api/kagi/fastGpt";
 import YDCIndex from "@/pages/api/ydc/ydcClient";
 import { User, currentUser } from "@clerk/nextjs/server";
 import { NextRequest } from "next/server";
@@ -11,6 +10,10 @@ import * as FormData from "form-data";
 import Mailgun from "mailgun.js";
 import { sunoApi } from "../../../../backendUtil/suno";
 import applescript from "applescript";
+import { getUserComputerEndpoint } from "@/pages/api/computer/setEndpoint";
+import axios from "axios";
+const { spawn } = require("child_process");
+
 const mailgun = new Mailgun(FormData);
 const mg = mailgun.client({
   username: "api",
@@ -20,10 +23,6 @@ const mg = mailgun.client({
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-type Data = {
-  response: string;
-};
-const fastGPT = new FastGPT(process.env.KAGI_API_KEY!);
 const ydc = new YDCIndex(process.env.YDC_API_KEY!);
 async function searchInternet({ query }: { query: string }) {
   const data = await ydc.getAiSnippetsForQuery(query);
@@ -141,10 +140,7 @@ async function runApplescript({ script }: { script: string }) {
       return "Something went wrong, the command couldn't be run";
     });
 }
-import { getUserComputerEndpoint } from "@/pages/api/computer/setEndpoint";
-import axios from "axios";
 
-const { spawn } = require("child_process");
 async function runInterpreter({
   userId,
   image,

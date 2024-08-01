@@ -47,6 +47,7 @@ export default async function handler(req, res) {
     await saveSpotifyTokens(userId, access_token, refresh_token);
     res.redirect("/");
   } catch (error) {
+    console.error(error);
     res.redirect("/?" + querystring.stringify({ error: "invalid_token" }));
   }
 }
