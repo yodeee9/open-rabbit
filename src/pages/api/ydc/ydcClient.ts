@@ -1,4 +1,3 @@
-// ydcIndex.ts
 import axios, { AxiosResponse } from 'axios';
 
 interface Snippet {
@@ -10,7 +9,6 @@ interface Snippet {
 interface ApiResponse {
     results: Snippet[];
     total: number;
-    // Include other fields from the API response if necessary
 }
 
 class YDCIndex {

@@ -1,11 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import OpenAI from "openai";
-import requestIp from "request-ip";
 import moment from "moment-timezone";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import FastGPT from "@/pages/api/kagi/fastGpt";
 import YDCIndex from "@/pages/api/ydc/ydcClient";
-import { User, auth, currentUser } from "@clerk/nextjs/server";
+import { User, currentUser } from "@clerk/nextjs/server";
 import { NextRequest } from "next/server";
 import { getSpotifyAccessToken } from "@/backendUtil/spotify";
 import { SpotifyApi } from "@spotify/web-api-ts-sdk";
@@ -143,7 +141,6 @@ async function runApplescript({ script }: { script: string }) {
       return "Something went wrong, the command couldn't be run";
     });
 }
-import { exec } from "child_process";
 import { getUserComputerEndpoint } from "@/pages/api/computer/setEndpoint";
 import axios from "axios";
 
@@ -305,7 +302,6 @@ export async function POST(request: NextRequest) {
   let currentTime = moment().format();
   try {
     const detectedIp = request.headers.get("X-Forwarded-For");
-    //Fetch IP from http://ip-api.com/json/24.48.0.1
     const ipData = await fetch(`http://ip-api.com/json/${detectedIp}`);
     const ipDataJson = await ipData.json();
     if (ipDataJson.city && ipDataJson.region) {
@@ -461,44 +457,6 @@ async function* processLLMRequest(
             },
           },
         },
-        // {
-        //   type: "function",
-        //   function: {
-        //     name: "run_applescript",
-        //     description:
-        //       "An extremely slow function that takes applescript and runs it on the local machine. This can be used to do all sorts of interesting things, from opening a random website to playing a random song on spotify",
-        //     parameters: {
-        //       type: "object",
-        //       properties: {
-        //         script: {
-        //           type: "string",
-        //           description:
-        //             "Valid applescript with no pre-text or posttext that will run on the local machine",
-        //         },
-        //       },
-        //       required: ["script"],
-        //     },
-        //   },
-        // },
-        // {
-        //   type: "function",
-        //   function: {
-        //     name: "run_shellscript",
-        //     description:
-        //       "An extremely slow function that takes zsh script and runs it on the local MAC OSX machine. This can be used to do all sorts of interesting things, from opening installing and running software with homebrew, and more",
-        //     parameters: {
-        //       type: "object",
-        //       properties: {
-        //         script: {
-        //           type: "string",
-        //           description:
-        //             "Valid zsh script with no pre-text or posttext that will run on the local machine",
-        //         },
-        //       },
-        //       required: ["script"],
-        //     },
-        //   },
-        // },
         {
           type: "function",
           function: {

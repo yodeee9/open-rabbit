@@ -1,10 +1,8 @@
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import { useCallback, useEffect, useState } from "react";
 import { useMicVAD, utils } from "@ricky0123/vad-react";
 import { useRef } from "react";
 const inter = Inter({ subsets: ["latin"] });
-import { useAsyncEffect } from "use-async-effect";
 import { playTextToSpeech } from "../frontendUtil/tts";
 import WebcamCapture from "../components/webcamCapture";
 import { Button, Dialog, Flex, Link, TextField } from "@radix-ui/themes";

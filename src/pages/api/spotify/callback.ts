@@ -1,9 +1,7 @@
 import axios from "axios";
 import querystring from "querystring";
 import cookie from "cookie";
-import { kv } from "@vercel/kv";
 import { getAuth } from "@clerk/nextjs/server";
-import type { NextApiRequest, NextApiResponse } from "next";
 import { saveSpotifyTokens } from "@/backendUtil/spotify";
 
 const stateKey = "spotify_auth_state";
@@ -15,7 +13,6 @@ export default async function handler(req, res) {
     return;
   }
   const { code, state } = req.query;
-
 
   res.setHeader(
     "Set-Cookie",
